@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="student.css">
+	<title>Student-Courses</title>
+</head>
+
+<body>
+	<div>
+		<div class="heading">
+			<h1>Meetings</h1>
+		</div>
+		<div class="t-main-body">
+			<div class="t-side-body">
+				<a href="studentHome.html"><button type="button" class="sec-btn">Home</button></a>
+				<a href="studentMarks.html"><button type="button" class="sec-btn">Marks</button></a>
+				<a href="../mainHome\loginPage.html"><button type="button" class="sec-btn">Log Out</button></a>
+			</div>
+			<div class="t-body">
+				<div class="t-sec-pg-body">
+					<div>
+						<h4>Scheduled meetings :</h4>
+						<table>
+							<tr>
+								<th>Teacher Name</th>
+								<th>Course Code</th>
+								<th>Date</th>
+								<th>Time</th>
+							</tr>
+							<tbody id="studentList"></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		function formatDate(dateString) {
+			const date = new Date(dateString);
+			const day = date.getDate().toString().padStart(2, '0');
+			const month = (date.getMonth() + 1).toString().padStart(2, '0');
+			const year = date.getFullYear();
+			return `${day}/${month}/${year}`;
+		}
+		document.addEventListener("DOMContentLoaded", function () {
+			// Fetch student details from the backend API
+			var id = sessionStorage.getItem('Id')
+			var url = `http://localhost:8001/student-meetings/${id}`
+			fetch(url, {
+				method: "GET",
+				mode: 'cors',
+				headers: {
+					'Content-Type': 'application/json',
+				}
+			})
+				.then(response => response.json())
+				.then(data => {
+					// Loop through the array of student data and create table rows
+					var tableBody = document.getElementById("studentList");
+					data.forEach(student => {
+						var row = tableBody.insertRow();
+						row.id = student._id; // Set row id to student's _id
+						var nameCell = row.insertCell(0);
+						var courseCell = row.insertCell(1);
+						var dateCell = row.insertCell(2);
+						var timeCell = row.insertCell(3);
+						nameCell.textContent = student.teacher.name;
+						courseCell.textContent = student.teacher.courseCode;
+						dateCell.textContent = formatDate(student.date);
+						timeCell.textContent = student.time;
+					});
+				})
+				.catch(error => console.error('Error fetching student details:', error));
+		});
+	</script>
+</body>
+
+</html>

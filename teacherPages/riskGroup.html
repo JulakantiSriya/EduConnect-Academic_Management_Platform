@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="teacher.css">
+	<title>Teacher-Sections</title>
+</head>
+
+<body>
+	<div>
+		<div class="heading">
+			<h1>Sections</h1>
+		</div>
+		<div class="t-main-body">
+			<div class="t-side-body">
+				<a href="teacherHome.html"><button type="button" class="sec-btn">Home</button></a>
+				<a href="teacherSections.html"><button type="button" class="sec-btn">Sections</button></a>
+				<a href="../mainHome\loginPage.html"><button type="button" class="sec-btn" onclick="flush()">Log
+						Out</button></a>
+			</div>
+			<div class="t-body">
+				<div class="t-sec-pg-body">
+					<div>
+						<h4>Schedule meetings:</h4>
+						<table>
+							<thead>
+								<tr>
+									<th>Registration Number</th>
+									<th>Name</th>
+									<th>Mid Marks</th>
+									<th>Date</th>
+									<th>time</th>
+									<th>Add</th>
+								</tr>
+							</thead>
+							<tbody id="studentList"></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		function formatDate(dateString) {
+			const date = new Date(dateString);
+			const day = date.getDate().toString().padStart(2, '0');
+			const month = (date.getMonth() + 1).toString().padStart(2, '0');
+			const year = date.getFullYear();
+			return `${day}/${month}/${year}`;
+		}
+		function addMeeting(studentId) {
+			const date = document.getElementById(`date_${studentId}`).value;
+			const time = document.getElementById(`time_${studentId}`).value;
+			const teacher = sessionStorage.getItem('Id')
+			const requestBody = {
+				student:studentId,
+				date,
+				time,
+				teacher
+			}
+			fetch('http://localhost:8001/add-meeting', {
+				method: "POST",
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(requestBody)
+			})
+				.then(response => response.json())
+				.then(data => {
+					alert("Meeting scheduled successfully")
+				})
+				.catch(error => console.error('Error saving marks:', error));
+
+		}
+		document.addEventListener("DOMContentLoaded", function () {
+			// Fetch student details from the backend API
+			var id = sessionStorage.getItem('Id')
+			var sec = sessionStorage.getItem('section')
+			var code = sessionStorage.getItem('courseCode')
+			var url = `http://localhost:8001/risk-students/${id}/${code}/${sec}`
+			fetch(url, {
+				method: "GET",
+				mode: 'cors',
+				headers: {
+					'Content-Type': 'application/json',
+				}
+			})
+				.then(response => response.json())
+				.then(data => {
+					// Loop through the array of student data and create table rows
+					var tableBody = document.getElementById("studentList");
+					data.forEach(student => {
+						var row = tableBody.insertRow();
+						row.id = student._id; // Set row id to student's _id
+						var numberCell = row.insertCell(0);
+						var nameCell = row.insertCell(1);
+						var marksCell = row.insertCell(2);
+						var dateCell = row.insertCell(3);
+						var timeCell = row.insertCell(4);
+						var addCell = row.insertCell(5);
+
+
+						nameCell.textContent = student.student.name;
+						numberCell.textContent = student.student.registrationNumber;
+						marksCell.textContent = student.marks;
+						dateCell.innerHTML = `<input type="date" class="input-box" id="date_${student._id}">`;
+						timeCell.innerHTML = `<input type="time" class="input-box" id="time_${student._id}">`;
+						addCell.innerHTML = `<button class="sub-btn" onclick="addMeeting('${student._id}')">Add</button>`;
+
+					});
+				})
+				.catch(error => console.error('Error fetching student details:', error));
+		});
+	</script>
+</body>
+
+</html>

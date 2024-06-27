@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="mainHome.css" />
+	<title>PLMS</title>
+</head>
+
+<body class="body-card">
+	<div class="container">
+		<div class="heading">
+			<h1>Welcome to PLMS 👋</h1>
+			<h4>Personalized Learning Management System</h4>
+		</div>
+		<h3>Log-in to your account</h3>
+		<div class="reg-body">
+			<label for="userType" class="head">User type</label>
+			<select id="userType" name="userType" class="input-box">
+				<option value="">Select</option>
+				<option value="teacher">Teacher</option>
+				<option value="student">Student</option>
+			</select>
+			<div>
+				<label for="regNumb" class="head">Registration number</label>
+				<input type="text" id="regNumb" class="input-box" name="regNumb" />
+			</div>
+			<div>
+				<label for="password" class="head">Password</label>
+				<input type="password" id="password" class="input-box" name="password" />
+			</div>
+			<div>
+				<button onclick="login()" class="sub-btn">Log-in</button>
+			</div>
+		</div>
+		<div class="flex-view">
+			<a href="registerTeacher.html"><button type="button" class="sec-btn">Register as a Teacher</button></a>
+			<a href="registerStudent.html"><button type="button" class="sec-btn">Register as a Student</button></a>
+		</div>
+	</div>
+
+	<script>
+		function login() {
+			var userType = document.getElementById("userType").value;
+			var regNumb = document.getElementById("regNumb").value;
+			var password = document.getElementById("password").value;
+
+
+			var url = '';
+			if (userType === 'teacher') {
+				// Redirect to teacher login page
+				url = `http://localhost:8001/teacher-login/${regNumb}/${password}`;
+			} else if (userType === 'student') {
+				// Redirect to student login page
+				url = `http://localhost:8001/student-login/${regNumb}/${password}`;
+			}
+
+			// Make a fetch request to the backend
+			fetch(url, {
+				method: "GET",
+				mode: 'cors',
+				headers: {
+					'Content-Type': 'application/json',
+				}
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data)
+					sessionStorage.setItem('Id', data._id);
+
+					if (userType === 'teacher') {
+						sessionStorage.setItem('courseCode', data.courseCode);
+						window.location.href = '/teacherPages/teacherHome.html';
+					} else if (userType === 'student') {
+						sessionStorage.setItem('Section', data.section);
+						window.location.href = '/studentPages/studentHome.html';
+					}
+				})
+				.catch(error => {
+					console.error('Error:', error);
+					// Handle error if needed
+				});
+		}
+
+	</script>
+</body>
+
+</html>

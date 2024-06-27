@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="mainHome.css" />
+	<title>PLMS</title>
+</head>
+
+<body class="body-card">
+	<div>
+		<div class="heading">
+			<h1>Welcome to PLMS 👋</h1>
+			<h4>Personalized Learning Management System</h4>
+		</div>
+		<h3>Register as a Teacher</h3>
+		<div class="reg-body">
+			
+				<div>
+					<p class="head">Full Name</p>
+					<input type="text" class="input-box" name="userName" id="userName" />
+				</div>
+				<div>
+					<p class="head">Registration number</p>
+					<input type="text" class="input-box" name="regNumb" id="regNumb" />
+				</div>
+				<div>
+					<p class="head">Password</p>
+					<input type="password" class="input-box" name="password" id="password" />
+				</div>
+				<div>
+					<p class="head">Email ID</p>
+					<input type="email" class="input-box" name="email" id="email" />
+				</div>
+				<div>
+					<p class="head">Phone Number</p>
+					<input type="tel" class="input-box" name="phnNumb" id="phnNumb" />
+				<div>
+					<p class="head">Course Code</p>
+					<input type="text" class="input-box" name="courseCode" id="courseCode" />
+				</div>
+		
+				</div>		<div>
+					<p class="head">Sections</p>
+					<input type="text" class="input-box" name="section" id="section" />
+				</div>
+				<div>
+					<button type="submit" value="Register" onclick="Register()" class="sub-btn">
+						Register
+					</button>
+				</div>
+			<div>
+				<a href="loginPage.html"><button type="button" class="sec-btn">Go to log in page</button></a>
+			</div>
+		</div>
+	</div>
+	<script>
+		function Register() {
+			var body = {};
+			body['registrationNumber'] = document.getElementById("regNumb").value;
+			body['password'] = document.getElementById("password").value;
+			body['name'] = document.getElementById("userName").value;
+			body['email'] = document.getElementById("email").value;
+			body['sections'] = document.getElementById("section").value.split(',');
+			body['courseCode'] = document.getElementById("courseCode").value;
+			body['phoneNumber'] = document.getElementById("phnNumb").value;
+
+			var url = '';
+            console.log(body)
+
+			url = `http://localhost:8001/add-teacher`;
+
+
+			// Make a fetch request to the backend
+			fetch(url, {
+				method: "POST",
+				mode: 'cors',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(body)
+			})
+				.then(response => response.json())
+				.then(data => {
+					sessionStorage.setItem('Id', data._id);
+					sessionStorage.setItem('courseCode', data.courseCode);
+
+					window.location.href = '/teacherPages/teacherHome.html';
+				})
+				.catch(error => {
+					console.error('Error:', error);
+				});
+		}
+	</script>
+</body>
+
+</html>

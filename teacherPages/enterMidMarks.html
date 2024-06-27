@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="teacher.css">
+	<title>Teacher-Sections</title>
+</head>
+
+<body>
+	<div>
+		<div class="heading">
+			<h1>Section / Mid-Term</h1>
+		</div>
+		<div class="t-main-body">
+			<div class="t-side-body">
+				<a href="teacherHome.html"><button type="button" class="sec-btn">Home</button></a>
+				<a href="teacherSections.html"><button type="button" class="sec-btn">Sections</button></a>
+				<a href="../mainHome\loginPage.html"><button type="button" class="sec-btn" onclick="flush()">Log Out</button></a>
+     		</div>
+			<div class="t-body">
+				<div class="t-profile">
+					<div>
+						<h4 class="body-head">Mid-term marks :</h4>
+						<table>
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Registration number</th>
+									<th>Marks</th>
+								</tr>
+							</thead>
+							<tbody id="studentList"></tbody>
+						</table>
+						<button type="submit" onclick="saveMarks()" class="sub-btn">
+							Save
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		function saveMarks() {
+			var teacherId = sessionStorage.getItem('Id');
+			var courseCode = sessionStorage.getItem('courseCode');
+			var studentMarks = [];
+			var rows = document.querySelectorAll("#studentList tr");
+			rows.forEach(row => {
+				var studentId = row.id;
+				var marksInput = row.querySelector(".input-box");
+				var marks = marksInput.value;
+				studentMarks.push({ studentId: studentId, marks: marks });
+			});
+
+			var requestBody = {
+				teacher: teacherId,
+				studentMarks: studentMarks,
+				courseCode: courseCode
+			};
+			fetch('http://localhost:8001/add-midmarks', {
+				method: "POST",
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(requestBody)
+			})
+				.then(response => response.json())
+				.then(data => {
+					alert("MidMarks saved successfully")
+				})
+				.catch(error => console.error('Error saving marks:', error));
+		}
+		document.addEventListener("DOMContentLoaded", function () {
+			// Fetch student details from the backend API
+			var id = sessionStorage.getItem('Id')
+			var code = sessionStorage.getItem('courseCode')
+			var sec = sessionStorage.getItem('section')
+			var url = `http://localhost:8001/mid-marks-by-section/${sec}/${id}/${code}`
+			console.log(id)
+			fetch(url, {
+				method: "GET",
+				mode: 'cors',
+				headers: {
+					'Content-Type': 'application/json',
+				}
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					// Loop through the array of student data and create table rows
+					var tableBody = document.getElementById("studentList");
+					data.forEach(student => {
+						var row = tableBody.insertRow();
+						row.id = student._id; // Set row id to student's _id
+						var nameCell = row.insertCell(0);
+						var regNumberCell = row.insertCell(1);
+						var marksCell = row.insertCell(2);
+						nameCell.textContent = student.name;
+						regNumberCell.textContent = student.registrationNumber;
+						// If you have a property for student marks, replace 'marks' below
+						// with the actual property name from your data
+						marksCell.innerHTML = `<input class="input-box" value="${student.marks || ''}">`;
+					});
+				})
+				.catch(error => console.error('Error fetching student details:', error));
+		});
+
+		function Flush() {
+            sessionStorage.clear();
+        }
+	</script>
+</body>
+
+</html>

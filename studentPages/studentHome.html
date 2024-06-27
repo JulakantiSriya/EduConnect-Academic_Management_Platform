@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="student.css">
+    <title>Student</title>
+</head>
+
+<body>
+    <div class="heading">
+        <h1>Welcome Student! 👋</h1>
+    </div>
+    <div class="t-main-body">
+        <div class="t-side-body">
+            <a href="studentHome.html"><button type="button" class="sec-btn">Home</button></a>
+            <a href="studentMarks.html"><button type="button" class="sec-btn">Marks</button></a>
+            <a href="../mainHome\loginPage.html"><button type="button" class="sec-btn">Log Out</button></a>
+        </div>
+        <div class="t-body">
+            <div class="t-profile">
+                <h4>Profile:</h4>
+                <div class="profile-data">
+                    <p class="data-bold">Name: </p>
+                    <p class="data-value" id="name"></p>
+                </div>
+                <div class="profile-data">
+                    <p class="data-bold">Registration Number: </p>
+                    <p class="data-value" id="registrationNumber"></p>
+                </div>
+                <div class="profile-data">
+                    <p class="data-bold">Email ID: </p>
+                    <p class="data-value" id="email"></p>
+                </div>
+                <div class="profile-data">
+                    <p class="data-bold">Phone Number: </p>
+                    <p class="data-value" id="phoneNumber"></p>
+                </div>
+                <div class="profile-data">
+                    <p class="data-bold">Stream: </p>
+                    <p class="data-value" id="degree"></p>
+                </div>
+                <div class="profile-data">
+                    <p class="data-bold">Section: </p>
+                    <p class="data-value" id="section"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Fetch student details from the backend API
+            var id = sessionStorage.getItem('Id')
+            var url = `http://localhost:8001/student-details/${id}`
+            fetch(url, {
+                method: "GET",
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Update HTML elements with fetched student details
+                    document.getElementById("name").innerText = data.name;
+                    document.getElementById("registrationNumber").innerText = data.registrationNumber;
+                    document.getElementById("email").innerText = data.email;
+                    document.getElementById("phoneNumber").innerText = data.phoneNumber;
+                    document.getElementById("degree").innerText = data.degree;
+                    document.getElementById("section").innerText = data.section;
+                })
+                .catch(error => console.error('Error fetching student details:', error));
+        });
+    </script>
+</body>
+
+</html>

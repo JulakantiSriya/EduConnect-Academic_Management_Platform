@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="student.css">
+	<title>Student-Marks</title>
+</head>
+
+<body>
+	<div>
+		<div class="heading">
+			<h1>Marks / Mid-term</h1>
+		</div>
+		<div class="t-main-body">
+			<div class="t-side-body">
+				<a href="studentHome.html"><button type="button" class="sec-btn">Home</button></a>
+				<a href="studentMarks.html"><button type="button" class="sec-btn">Marks</button></a>
+				<a href="../mainHome\loginPage.html"><button type="button" class="sec-btn">Log Out</button></a>
+			</div>
+			<div class="t-body">
+				<div class="t-profile">
+					<h4 class="body-head">Mid-term marks:</h4>
+					<table>
+							<tr>
+								<th>Course Code</th>
+								<th>Marks</th>
+							</tr>
+							<tbody id="studentList"></tbody>
+			
+						<tbody id="studentList"></tbody>
+					</table>
+
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			// Fetch student details from the backend API
+			var id = sessionStorage.getItem('Id')
+			var url = `http://localhost:8001/student-mid-marks/${id}`
+			fetch(url, {
+				method: "GET",
+				mode: 'cors',
+				headers: {
+					'Content-Type': 'application/json',
+				}
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					// Loop through the array of student data and create table rows
+					var tableBody = document.getElementById("studentList");
+					data.forEach(student => {
+						var row = tableBody.insertRow();
+						row.id = student._id; // Set row id to student's _id
+						var nameCell = row.insertCell(0);
+						var regNumberCell = row.insertCell(1);
+						nameCell.textContent = student.courseCode;
+						regNumberCell.textContent = student.marks;
+					});
+				})
+				.catch(error => console.error('Error fetching student details:', error));
+		});
+	</script>
+</body>
+
+</html>
