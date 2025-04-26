@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <link rel="stylesheet" href="teacher.css">
+  <title>Teacher-Sections</title>
+ </head>
+ <body>
+  <div>
+   <div class="heading">
+    <h1>Sections</h1>
+   </div>
+   <div class="t-main-body">
+    <div class="t-side-body">
+      <a href="teacherHome.html"><button type="button" class="sec-btn">Home</button></a>
+      <a href="teacherSections.html"><button type="button" class="sec-btn">Sections</button></a>
+      <a href="../mainHome\loginPage.html"><button type="button" class="sec-btn" onclick="flush()">Log Out</button></a>
+    </div>
+    <div class="t-body">
+      <div class="t-profile">
+        <h4>Select section:</h4>
+        <div class="t-sec-pg-body">
+          <label for="sections">Sections:</label>
+          <input type="text" name="fname" class="input-box" id="section">
+          <button type="submit" onclick="Submit()" class="sub-btn">
+						Submit
+					</button>
+        </div>
+      </div>
+      <div class="clmn-flex">
+        <a href="meetings.html"><button type="button" class="sec-meet-btn">Meetings</button></a>
+      </div>
+    </div>
+    
+   </div>
+  </div>
+  <script>
+		function Submit() {
+			var section = document.getElementById("section").value;
+      sessionStorage.setItem('section', section);
+      window.location.href = '/teacherPages/teacherSectionPage.html';
+		}
+    function Flush() {
+      sessionStorage.clear();
+    }
+	</script>
+ </body>
+</html>
+

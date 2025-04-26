@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <link rel="stylesheet" href="teacher.css">
+  <title>Teacher-Sections</title>
+ </head>
+ <body>
+  <div>
+   <div class="heading">
+    <h1>Section</h1>
+   </div>
+   <div class="t-main-body">
+    <div class="t-side-body">
+      <a href="teacherHome.html"><button type="button" class="sec-btn">Home</button></a>
+      <a href="teacherSections.html"><button type="button" class="sec-btn">Sections</button></a>
+      <a href="../mainHome\loginPage.html"><button type="button" class="sec-btn" onclick="flush()">Log Out</button></a>
+    </div>
+    <div class="t-body">
+      <div class="t-sec-pg-body">
+       <div class="clmn-flex">
+          <a href="enterMidMarks.html"><button type="button" class="sec-marks-btn">Mid-term Marks</button></a>
+          <a href="enterQuizMarks.html"><button type="button" class="sec-marks-btn">Quiz Marks</button></a>
+          <a href="enterAssignMarks.html"><button type="button" class="sec-marks-btn">Assignment Marks</button></a>
+       </div>
+       <div class="clmn-flex">
+        <a href="riskGroup.html"><button type="button" class="sec-meet-btn">Risk Group</button></a>
+       </div>
+      </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    function Flush() {
+      sessionStorage.clear();
+    }
+  </script>
+ </body>
+</html>
+

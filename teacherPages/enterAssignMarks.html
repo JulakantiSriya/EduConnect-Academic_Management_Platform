@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="teacher.css">
+	<title>Teacher-Sections</title>
+</head>
+
+<body>
+	<div>
+		<div class="heading">
+			<h1>Section / Assignment</h1>
+		</div>
+		<div class="t-main-body">
+			<div class="t-side-body">
+				<a href="teacherHome.html"><button type="button" class="sec-btn">Home</button></a>
+				<a href="teacherSections.html"><button type="button" class="sec-btn">Sections</button></a>
+				<a href="../mainHome\loginPage.html"><button type="button" class="sec-btn" onclick="flush()">Log Out</button></a>
+     		</div>
+			<div class="t-body">
+				<div class="t-profile">
+					<div>
+						<h4 class="body-head">Assignment marks :</h4>
+						<div class="reg-body">
+							<p class="head">Assignment number:</p>
+							<input type="number" class="input-box" name="assignNumb" min="1" id="assignNumb">
+							<button type="submit" onclick="getData()" class="sub-btn">
+								Submit
+							</button>
+						</div>
+						<table>
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Registration number</th>
+									<th>Marks</th>
+								</tr>
+							</thead>
+							<tbody id="studentList"></tbody>
+						</table>
+						<button type="submit" onclick="saveMarks()" class="sub-btn">
+							Save
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		function saveMarks() {
+			var teacherId = sessionStorage.getItem('Id');
+			var courseCode = sessionStorage.getItem('courseCode');
+			var studentMarks = [];
+			var rows = document.querySelectorAll("#studentList tr");
+			var assignNumb = document.getElementById('assignNumb').value
+			rows.forEach(row => {
+				var studentId = row.id;
+				var marksInput = row.querySelector(".input-box");
+				var marks = marksInput.value;
+				studentMarks.push({ studentId: studentId, marks: marks });
+			});
+
+			var requestBody = {
+				teacher: teacherId,
+				studentMarks: studentMarks,
+				courseCode: courseCode,
+				assignmentNumber: assignNumb
+			};
+			fetch('http://localhost:8001/add-assignmentmarks', {
+				method: "POST",
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(requestBody)
+			})
+				.then(response => response.json())
+				.then(data => {
+					alert("Marks saved successfully")
+				})
+				.catch(error => console.error('Error saving marks:', error));
+		}
+		function getData() {
+			// Fetch student details from the backend API
+			var id = sessionStorage.getItem('Id')
+			var code = sessionStorage.getItem('courseCode')
+			var sec = sessionStorage.getItem('section')
+			var assignNumb = document.getElementById('assignNumb').value
+			var url = `http://localhost:8001/assignment-marks-by-section/${sec}/${id}/${code}/${assignNumb}`
+			document.getElementById("studentList").innerHTML = "";
+			console.log(id)
+			fetch(url, {
+				method: "GET",
+				mode: 'cors',
+				headers: {
+					'Content-Type': 'application/json',
+				}
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					var tableBody = document.getElementById("studentList");
+					data.forEach(student => {
+						var row = tableBody.insertRow();
+						row.id = student._id; 
+						var nameCell = row.insertCell(0);
+						var regNumberCell = row.insertCell(1);
+						var marksCell = row.insertCell(2);
+						nameCell.textContent = student.name;
+						regNumberCell.textContent = student.registrationNumber;
+						marksCell.innerHTML = `<input class="input-box" value="${student.marks || ''}">`;
+					});
+				})
+				.catch(error => console.error('Error fetching student details:', error));
+		}
+
+		function Flush() {
+            sessionStorage.clear();
+        }
+	</script>
+</body>
+
+</html>

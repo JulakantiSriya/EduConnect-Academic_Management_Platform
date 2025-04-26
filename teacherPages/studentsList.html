@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <link rel="stylesheet" href="teacher.css">
+  <title>Teacher-Sections</title>
+  <script>
+    function fillForm(studentId, studentName) {
+        document.getElementById("studentId").value = studentId;
+        document.getElementById("studentName").innerText = studentName;
+    }
+</script>
+
+ </head>
+ <body>
+  <div>
+   <div class="heading">
+    <h1>Section</h1>
+   </div>
+   <div class="t-main-body">
+    <div class="t-side-body">
+      <a href="teacherHome.html"><button type="button" class="sec-btn">Home</button></a>
+      <a href="teacherSections.html"><button tpe="button" class="sec-btn">Sections</button></a>
+      <a href="../mainHome\loginPage.html"><button type="button" class="sec-btn" onclick="flush()">Log Out</button></a>
+    </div>
+    <div class="t-body">
+      <div class="t-sec-pg-body">
+       <div>
+        <h4>Sceduled meetings:</h4>
+        <table>
+          <tr>
+              <th>Registration Number</th>
+              <th>Name</th>
+              <th>Mid Marks</th>
+              <th>Add</th>
+          </tr>
+      </table>  
+        <script src="meetings.js"></script>
+        <h3>Schedule Meeting Details:</h3>
+    <form action="scheduleMeeting.php" method="post">
+        <input type="hidden" id="studentId" name="studentId">
+        <label for="studentName">Student Name:</label>
+        <span id="studentName"></span><br><br>
+        <label for="meetingDate">Date:</label>
+        <input type="date" id="meetingDate" name="meetingDate" class="input-box"><br><br>
+        <label for="meetingTime">Time:</label>
+        <input type="time" id="meetingTime" name="meetingTime" class="input-box"><br><br>
+        <label for="meetingVenue">Venue:</label>
+        <input type="text" id="meetingVenue" name="meetingVenue" class="input-box"><br><br>
+        <input type="submit" value="Schedule Meeting" class="sub-btn">
+    </form>
+       </div>
+      </div>
+    </div>
+   </div>
+  </div>
+  <script>
+  function Flush() {
+    sessionStorage.clear();
+    }
+</script>
+ </body>
+</html>

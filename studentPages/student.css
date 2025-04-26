@@ -1,0 +1,166 @@
+.heading {
+ background-color: #83b0e1;
+ height:100px;
+ background-size: cover;
+ padding-left: 50px;
+ padding-top: 40px;
+ border-radius: 10px;
+ font-size: larger;
+}
+
+.t-body {
+ display: flex;
+ justify-content: space-between;
+ background-color: #e1ecf7;
+ border-radius: 10px;
+ margin: 5px 0px;
+ padding: 10px;
+ width: 100%;
+}
+
+.t-profile {
+ display: flex;
+ flex-direction: column;
+ align-items: start;
+ justify-content: start;
+ padding: 10px 40px;
+ font-size: 25px;
+}
+
+.t-sec-pg-body {
+ display: flex;
+ align-items: baseline;
+ justify-content: space-between;
+ padding: 10px 40px;
+ font-size: 25px;
+ width: inherit;
+}
+
+.clmn-flex {
+ display: flex;
+ flex-direction:column;
+}
+
+.input-box {
+ justify-content: start;
+ padding: 5px 8px;
+ border-radius: 10px;
+ border: 1px solid black;
+}
+
+.sec-btn {
+ padding: 30px 50px;
+ font-size: 20px;
+ font-weight: bold;
+ border-radius: 20px;
+ background-color: #aecbeb;
+ border: 1px solid black;
+ width: 200px;
+ margin: 5px 2px;
+}
+
+.sec-btn:hover {
+ text-shadow: 3px 3px 30px black;
+ background-color: #c6dffa;
+}
+
+.sec-meet-btn {
+ text-align: center;
+ padding: 50px 50px;
+ font-size: 20px;
+ font-weight: bold;
+ border-radius: 20px;
+ background-color: #aecbeb;
+ border: 1px solid black;
+ width: auto;
+ margin: 5px 2px;
+}
+
+.sec-meet-btn:hover {
+ text-shadow: 3px 3px 30px black;
+ background-color: #c6dffa;
+}
+
+.t-main-body {
+ display: flex;
+}
+
+.t-side-body {
+ display: flex;
+ flex-direction: column;
+ padding: 5px;
+ justify-content: start;
+ align-items: space-evenly;
+}
+
+.profile-data {
+ display: flex;
+ font-size: 18px;
+ margin: 2px; 
+}
+
+.data-bold {
+ background-color: #f8f9fb;
+ font-weight: bold;
+ border: 1px solid black;
+ padding: 5px 10px;
+ border-radius: 10px;
+ margin: 1px;
+ height: 18px;
+ width: 190px;
+}
+
+.data-value {
+ padding: 5px 10px;
+ margin: 1px;
+ height: 18px;
+}
+
+.t-sections {
+ margin: 2px;
+ padding: 5px 10px;
+ border-radius: 5px;
+}
+
+.sub-btn {
+ margin: 10px;
+ border: 1px solid black;
+ padding: 5px 15px;
+ background-color: #f8f9fb;
+ border-radius: 20px;
+}
+
+.sub-btn:hover {
+ background-color: #d1d6e3;
+}
+
+.sec-quiz {
+ margin: 2px;
+ padding: 5px 10px;
+ border-radius: 5px;
+}
+
+
+.sec-assign {
+ margin: 2px;
+ padding: 5px 10px;
+ border-radius: 5px;
+}
+
+.body-head {
+ margin: 20px;
+ font-size: 25px;
+ margin-left: 40px;
+}
+
+.body-sub-head {
+ font-size: 20px;
+}
+
+.marks-box {
+ padding: 5px;
+ border-radius: 5px;
+ border: 1px solid black;
+ margin: 1px;
+ text-align: center;
+}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="teacher.css">
+	<title>Teacher</title>
+</head>
+
+<body>
+	<div class="heading">
+		<h1>Welcome Teacher! 👋</h1>
+	</div>
+	<div class="t-main-body">
+		<div class="t-side-body">
+			<a href="teacherHome.html"><button type="button" class="sec-btn">Home</button></a>
+			<a href="teacherSections.html"><button type="button" class="sec-btn">Sections</button></a>
+			<a href="../mainHome\loginPage.html"><button type="button" class="sec-btn" onclick="flush()">Log Out</button></a>
+		</div>
+		<div class="t-body">
+			<div class="t-profile">
+				<h4>Profile:</h4>
+				<div class="profile-data">
+					<p class="data-bold">Name: </p>
+					<p class="data-value" id="name"></p>
+				</div>
+				<div class="profile-data">
+					<p class="data-bold">Registration Number: </p>
+					<p class="data-value" id="registrationNumber"></p>
+				</div>
+				<div class="profile-data">
+					<p class="data-bold">Email ID: </p>
+					<p class="data-value" id="email"></p>
+				</div>
+				<div class="profile-data">
+					<p class="data-bold">Phone Number: </p>
+					<p class="data-value" id="phoneNumber"></p>
+				</div>
+				<div class="profile-data">
+					<p class="data-bold">Course Code: </p>
+					<p class="data-value" id="courseCode"></p>
+				</div>
+				<div class="profile-data">
+					<p class="data-bold">Section: </p>
+					<p class="data-value" id="section"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		// Fetch student details from the backend API
+		var id = sessionStorage.getItem('Id')
+		var url = `http://localhost:8001/teacher-details/${id}`
+		console.log(id)
+		fetch(url, {
+			method: "GET",
+			mode: 'cors',
+			headers: {
+				'Content-Type': 'application/json',
+			}
+		})
+			.then(response => response.json())
+			.then(data => {
+				// Update HTML elements with fetched student details
+				document.getElementById("name").innerText = data.name;
+				document.getElementById("registrationNumber").innerText = data.registrationNumber;
+				document.getElementById("email").innerText = data.email;
+				document.getElementById("phoneNumber").innerText = data.phoneNumber;
+				document.getElementById("courseCode").innerText = data.courseCode;
+				document.getElementById("section").innerText = data.sections.join(',');
+			})
+			.catch(error => console.error('Error fetching student details:', error));
+	});
+
+	function Flush() {
+      sessionStorage.clear();
+    }
+</script>
+
+</html>
